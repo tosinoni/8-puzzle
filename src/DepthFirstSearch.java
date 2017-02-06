@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 public class DepthFirstSearch implements Strategy {
@@ -36,12 +37,22 @@ public class DepthFirstSearch implements Strategy {
 				if (node.getState().equals(goalState))
 					return node;
 				
-				for (Node n : prodSystem.expand(node)) nodeList.push(n);
+				populateNodeList(node);
 				
 			}
 
 		}
 		return null;
+	}
+	
+	public void populateNodeList(Node node) {
+		Set<Node> newNodes = prodSystem.expand(node);
+		
+		for (Node n : newNodes) {
+			if (!nodeList.contains(n) && !visitedStates.contains(n.getState())){
+				nodeList.push(n);
+			}
+		}
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

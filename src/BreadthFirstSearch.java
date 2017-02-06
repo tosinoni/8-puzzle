@@ -1,13 +1,14 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 
 public class BreadthFirstSearch implements Strategy{
 
 	private ProductionSystem prodSystem;
-	private Queue<Node> nodeList = new LinkedList<>();
+	private Queue<Node> nodeList = new ArrayDeque<>();
 	private List<State> visitedStates = new ArrayList<>();
 	
 	@Override
@@ -30,24 +31,36 @@ public class BreadthFirstSearch implements Strategy{
 	
 	public Node treeSearch(State goalState) {
 
-		while (!nodeList.isEmpty()) {
+		while (!nodeList.isEmpty() || visitedStates.size() <= 362880) {
 			Node node = nodeList.remove();
 
 			if (!visitedStates.contains(node.getState())) {
 				visitedStates.add(node.getState());
+				System.out.println(node.getState() + "   ->   " + visitedStates.size());
 				if (node.getState().equals(goalState))
 					return node;
 
-				nodeList.addAll(prodSystem.expand(node));
+				populateNodeList(node);
 			}
 
 		}
 		return null;
 	}
+	
+	public void populateNodeList(Node node) {
+		Set<Node> newNodes = prodSystem.expand(node);
+		
+		for (Node n : newNodes) {
+			if (!nodeList.contains(n) && !visitedStates.contains(n.getState())){
+				nodeList.add(n);
+			}
+		}
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String seq = "7 2 4 5 8 0 6 3 1";
-		String finalSeq = "1 2 3 4 5 6 7 8 0";
+
+		String finalSeq = "0 1 2 3 4 5 6 7 8";
 		BreadthFirstSearch breadthFirstSearch = new BreadthFirstSearch();
 		Node node = breadthFirstSearch.search(seq, 3, 3, finalSeq);
 		
@@ -58,7 +71,7 @@ public class BreadthFirstSearch implements Strategy{
 		 
 		System.out.println(parts.length);
 		 for (int i=0; i<parts.length; i++) {
-			 State state = new State (parts[i], 2, 4);
+			 State state = new State (parts[i], 3, 3);
 			 state.print();
 		 }
 
