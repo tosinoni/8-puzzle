@@ -42,7 +42,7 @@ public class Node {
 	}
 
 	public void setAction(Set<String> actions) {
-		this.action = actions;
+		this.action.addAll(actions);
 	}
 	public void setAction(String action) {
 		this.action.add(action);

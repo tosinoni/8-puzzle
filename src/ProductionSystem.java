@@ -36,8 +36,8 @@ public class ProductionSystem {
 		for (State state : states) {
 			Node node = new Node(state);
 			node.setParent(parentNode);
-			//node.setAction(parentNode.getAction());
-			//node.setAction(state.toString());
+			node.setAction(parentNode.getAction());
+			node.setAction(state.toString());
 			
 			nodes.add(node);
 		}
@@ -65,9 +65,9 @@ public class ProductionSystem {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		State state = new State("1 2 4 6 0 5 7 3 8", 3, 3);
+//		State state = new State("1 0 3 6 2 7 5 4 8);
 		
-		State state = new State("1 0 4 6 2 7 5 3 8", 3, 3);
+		State state = new State("1 2 4 6 0 7 5 3 8", 3, 3);
 
 		ProductionSystem prod = new ProductionSystem();
 		
@@ -77,7 +77,8 @@ public class ProductionSystem {
 		Set<Node> nodes = prod.expand(node);
 		
 		for (Node n : nodes) {
-			n.getState().print();
+		//	n.getState().print();
+			System.out.println(n.getState().toString());
 		}
 	}
 

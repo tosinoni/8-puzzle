@@ -58,40 +58,42 @@ public class AstarSearch implements Strategy {
 
 			if (node.getState().equals(goalState))
 				return node;
-			node.getState().print();
+			//node.getState().print();
 			Set<Node> successors = prodSystem.expand(node);
 			open.remove(node.getState().toString());
 			closed.put(node.getState().toString(), node);
 
 			for (Node n : successors) {
+				n.setEstimateCost(heuristic.evaluate(n.getState(),
+						goalState));
+				n.setExactCost(node.getExactCost() + 1);
 				if (open.get(n.getState().toString()) != null) {
-					updateNodeInMap(n, open);
+					open = updateNodeInMap(n, open);
 				} else if (closed.get(n.getState().toString()) != null) {
-					updateNodeInMap(n, closed);
+					closed = updateNodeInMap(n, closed);
 				} else {
-					n.setEstimateCost(heuristic.evaluate(n.getState(),
-							goalState));
-					n.setExactCost(node.getExactCost() + 1);
 					open.put(n.getState().toString(), n);
 				}
 			}
 			
-			sortMap(open);
-			sortMap(closed);
+			open = sortMap(open);
+			closed = sortMap(closed);
 		}
 		return null;
 	}
 
-	public void updateNodeInMap(Node n, Map<String, Node> map) {
+	public Map<String, Node> updateNodeInMap(Node n, Map<String, Node> map) {
 		Node nodeFromMap = map.get(n.getState().toString());
 
 		if (nodeFromMap.getTotalCost() > n.getTotalCost()) {
 			map.remove(nodeFromMap.getState().toString());
 			map.put(n.getState().toString(), n);
 		}
+		
+		return map;
 	}
 
-	private void sortMap(Map<String, Node> map) {
+	private Map<String, Node> sortMap(Map<String, Node> map) {
 		List<Map.Entry<String, Node>> entryList = new ArrayList<>(
 				map.entrySet());
 
@@ -110,15 +112,15 @@ public class AstarSearch implements Strategy {
 			
 		}
 		
-		map.putAll(newMap);
+
+		return newMap;
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
+
 		String seq = "1 0 4 6 2 7 5 3 8";
 		String finalSeq = "1 2 3 4 5 6 7 8 0";
-		AstarSearch astarSearch = new AstarSearch(new HeuristicByCounting());
+		AstarSearch astarSearch = new AstarSearch(new HeuristicByAverage());
 		Node node = astarSearch.search(seq, 3, 3, finalSeq);
 		
 		 
