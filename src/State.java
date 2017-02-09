@@ -121,6 +121,17 @@ public class State {
 		}
 
 	}
+	
+	 @Override
+	    public int hashCode() {
+	        final int prime = 31;
+	        int result = 1;
+	        result = prime * result + columns;
+	        result = prime * result + rows;
+	        result = prime * result + Arrays.deepHashCode(grid);
+
+	        return result;
+	    }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

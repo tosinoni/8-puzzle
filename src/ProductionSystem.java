@@ -20,21 +20,23 @@ public class ProductionSystem {
 		return nodes;
 	}
 	
-	public List<Node> handleNonKnightNodes(Node parentNode) {		
+	public Set<Node> handleNonKnightNodes(Node parentNode) {		
 		List<State> states = move.getNonKnightStatesAfterMove(parentNode.getState());
 		
 		return createNodesFromStates(parentNode, states);
 	}
 	
-	public List<Node> createNodesFromStates (Node parentNode, List<State> states) {
+	public Set<Node> createNodesFromStates (Node parentNode, List<State> states) {
 		if (states.isEmpty()) return null;
 		
-		List<Node> nodes = new ArrayList<>();
-
+		Set<Node> nodes = new LinkedHashSet<>();
+         
 		for (State state : states) {
 			Node node = new Node(state);
 			node.setParent(parentNode);
-			node.setAction(parentNode.getAction() + " - " + state);
+			
+
+			node.setAction(parentNode.getAction() + " - " + state.toString());
 			
 			nodes.add(node);
 		}
@@ -42,8 +44,8 @@ public class ProductionSystem {
 		return nodes;
 	}
 	
-	public List<Node> handleKnightNodes(Node parentNode) {
-		List<Node> nodes = new ArrayList<>();
+	public Set<Node> handleKnightNodes(Node parentNode) {
+		Set<Node> nodes = new LinkedHashSet<>();
 		
 		State state = parentNode.getState();
 		
@@ -51,7 +53,7 @@ public class ProductionSystem {
 			for (int j=0; j<state.getColumns(); j++){
 				List<State> states = move.getKnightStatesAfterMove(state, state.getGrid()[i][j]);
 				
-				List<Node> newNodes = createNodesFromStates(parentNode, states);
+				Set<Node> newNodes = createNodesFromStates(parentNode, states);
 				
 				if(newNodes != null && newNodes.size() > 0)
 					nodes.addAll(newNodes);
@@ -62,10 +64,14 @@ public class ProductionSystem {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		State state = new State("7 2 4 5 0 6 8 3 1", 3, 3);
+//		State state = new State("1 2 4 6 0 5 7 3 8", 3, 3);
+		
+		State state = new State("1 0 4 6 2 7 5 3 8", 3, 3);
+
 		ProductionSystem prod = new ProductionSystem();
 		
 		Node node = new Node(state);
+		node.getState().print();
 		
 		Set<Node> nodes = prod.expand(node);
 		

@@ -1,12 +1,14 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class DepthFirstSearch implements Strategy {
 
-    private Stack<Node> nodeList = new Stack<>();
-	private List<State> visitedStates = new ArrayList<>();
+    private Deque<Node> nodeList = new ArrayDeque <>();
+	private Set<State> visitedStates = new LinkedHashSet<>();
 	private ProductionSystem prodSystem;
 	
 	@Override
@@ -29,37 +31,34 @@ public class DepthFirstSearch implements Strategy {
 	private Node treeSearch(State goalState) {
 		// TODO Auto-generated method stub
 		while (!nodeList.isEmpty()) {
-			Node node = nodeList.pop();
+			Node node = nodeList.poll();
 
 			if (!visitedStates.contains(node.getState())) {
 				visitedStates.add(node.getState());
-
+				
+					System.out.println(node.getState().toString() + " ----> " + visitedStates.size());
+				//node.getState().print();
 				if (node.getState().equals(goalState))
 					return node;
 				
-				populateNodeList(node);
+				for (Node n : prodSystem.expand(node)){
+					if (!visitedStates.contains(n.getState()))
+						nodeList.push(n);
+				}
 				
+					
 			}
 
 		}
 		return null;
 	}
-	
-	public void populateNodeList(Node node) {
-		Set<Node> newNodes = prodSystem.expand(node);
-		
-		for (Node n : newNodes) {
-			if (!nodeList.contains(n) && !visitedStates.contains(n.getState())){
-				nodeList.push(n);
-			}
-		}
-	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String seq = "7 2 4 5 0 6 3 1";
-		String finalSeq = "1 2 3 4 5 6 7 0";
+		String seq = "1 0 4 6 2 7 5 3 8";
+		String finalSeq = "1 2 3 4 5 6 7 8 0";
 		DepthFirstSearch depthFirstSearch = new DepthFirstSearch();
-		Node node = depthFirstSearch.search(seq, 2, 4, finalSeq);
+		Node node = depthFirstSearch.search(seq, 3, 3, finalSeq);
 		
 		System.out.println(node.getState());
 		System.out.println(node.getAction());
@@ -68,7 +67,7 @@ public class DepthFirstSearch implements Strategy {
 		 
 		System.out.println(parts.length);
 		 for (int i=0; i<parts.length; i++) {
-			 State state = new State (parts[i], 2, 4);
+			 State state = new State (parts[i], 3, 3);
 			 state.print();
 		 }
 	}

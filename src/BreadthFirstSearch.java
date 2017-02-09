@@ -1,15 +1,14 @@
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class BreadthFirstSearch implements Strategy{
 
 	private ProductionSystem prodSystem;
-	private Queue<Node> nodeList = new ArrayDeque<>();
-	private List<State> visitedStates = new ArrayList<>();
+	private Queue<Node> nodeList = new ConcurrentLinkedQueue<>();
+	private Set<State> visitedStates = new LinkedHashSet<>();
 	
 	@Override
 	public Node search(String sequence, int row, int col, String finalSequence) {
@@ -31,36 +30,27 @@ public class BreadthFirstSearch implements Strategy{
 	
 	public Node treeSearch(State goalState) {
 
-		while (!nodeList.isEmpty() || visitedStates.size() <= 362880) {
-			Node node = nodeList.remove();
+		while (!nodeList.isEmpty()) {
+			Node node = nodeList.poll();
 
 			if (!visitedStates.contains(node.getState())) {
 				visitedStates.add(node.getState());
-				System.out.println(node.getState() + "   ->   " + visitedStates.size());
+
 				if (node.getState().equals(goalState))
 					return node;
 
-				populateNodeList(node);
+				nodeList.addAll(prodSystem.expand(node));
+
 			}
 
 		}
 		return null;
 	}
-	
-	public void populateNodeList(Node node) {
-		Set<Node> newNodes = prodSystem.expand(node);
-		
-		for (Node n : newNodes) {
-			if (!nodeList.contains(n) && !visitedStates.contains(n.getState())){
-				nodeList.add(n);
-			}
-		}
-	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String seq = "7 2 4 5 8 0 6 3 1";
-
-		String finalSeq = "0 1 2 3 4 5 6 7 8";
+		String seq = "1 0 4 6 2 7 5 3 8";
+		String finalSeq = "1 2 3 4 0 5 6 7 8";
 		BreadthFirstSearch breadthFirstSearch = new BreadthFirstSearch();
 		Node node = breadthFirstSearch.search(seq, 3, 3, finalSeq);
 		

@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Node {
 
@@ -52,6 +53,17 @@ public class Node {
 		return (this.state.equals(node.state)) && (this.action == node.action)
 				&& (this.parent.equals(node.parent));
 	}
+	
+	 @Override
+	    public int hashCode() {
+	        final int prime = 31;
+	        int result = 1;
+	        result = prime * result + state.hashCode();
+	        result = prime * result + action.hashCode();
+
+	        return result;
+	    }
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
