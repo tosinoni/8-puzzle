@@ -1,3 +1,4 @@
+package src;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedHashSet;
@@ -56,20 +57,22 @@ public class DepthFirstSearch implements Strategy {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String seq = "1 0 4 6 2 7 5 3 8";
-		String finalSeq = "1 2 3 4 5 6 7 8 0";
+		String finalSeq = "1 0 6 2 4 7 5 3 8";
 		DepthFirstSearch depthFirstSearch = new DepthFirstSearch();
 		Node node = depthFirstSearch.search(seq, 3, 3, finalSeq);
 		
 		System.out.println(node.getState());
-		System.out.println(node.getAction());
-		
-		String[] parts = node.getAction().split("-");
-		 
-		System.out.println(parts.length);
-		 for (int i=0; i<parts.length; i++) {
-			 State state = new State (parts[i], 3, 3);
+		for (String s : node.getAction()) {
+			State state = new State (s, 3, 3);
 			 state.print();
-		 }
+		}		
+//		String[] parts = node.getAction().split("-");
+//		 
+//		System.out.println(parts.length);
+//		 for (int i=0; i<parts.length; i++) {
+//			 State state = new State (parts[i], 3, 3);
+//			 state.print();
+//		 }
 	}
 
 }

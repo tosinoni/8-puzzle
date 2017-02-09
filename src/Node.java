@@ -1,14 +1,19 @@
-import java.util.Arrays;
+package src;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Node {
 
 	private State state;
 	private Node parent;
-	private String action;
+	private Set<String> action;
+	private int exactCost;
+	private int estimateCost;
 	
 	public Node (State state) {
 		this.state = state;
-		this.action = "";
+		this.action = new LinkedHashSet<>();
 	}
 	
 	
@@ -32,13 +37,15 @@ public class Node {
 	}
 
 
-	public String getAction() {
+	public Set<String> getAction() {
 		return action;
 	}
 
-
+	public void setAction(Set<String> actions) {
+		this.action = actions;
+	}
 	public void setAction(String action) {
-		this.action = action;
+		this.action.add(action);
 	}
 
 	public boolean equals (Object obj) {
@@ -54,7 +61,31 @@ public class Node {
 				&& (this.parent.equals(node.parent));
 	}
 	
-	 @Override
+	 public int getExactCost() {
+		return exactCost;
+	}
+	 
+	 public int getTotalCost() {
+		 return exactCost + estimateCost;
+	 }
+
+
+	public void setExactCost(int exactCost) {
+		this.exactCost = exactCost;
+	}
+
+
+	public int getEstimateCost() {
+		return estimateCost;
+	}
+
+
+	public void setEstimateCost(int estimateCost) {
+		this.estimateCost = estimateCost;
+	}
+
+
+	@Override
 	    public int hashCode() {
 	        final int prime = 31;
 	        int result = 1;

@@ -1,3 +1,4 @@
+package src;
 import java.util.LinkedHashSet;
 import java.util.Queue;
 import java.util.Set;
@@ -56,14 +57,19 @@ public class BreadthFirstSearch implements Strategy{
 		
 		 
 		System.out.println(node.getState());
-		System.out.println(node.getAction());
-		String[] parts = node.getAction().split("-");
-		 
-		System.out.println(parts.length);
-		 for (int i=0; i<parts.length; i++) {
-			 State state = new State (parts[i], 3, 3);
+		//System.out.println(node.getAction());
+		
+		for (String s : node.getAction()) {
+			State state = new State (s, 3, 3);
 			 state.print();
-		 }
+		}
+//		String[] parts = node.getAction().split("-");
+//		 
+//		System.out.println(parts.length);
+//		 for (int i=0; i<parts.length; i++) {
+//			 State state = new State (parts[i], 3, 3);
+//			 state.print();
+//		 }
 
 	}
 

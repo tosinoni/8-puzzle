@@ -1,3 +1,5 @@
+package src;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -99,6 +101,13 @@ public class State {
 					return Arrays.asList(i, j);
 			}
 		}
+		
+		return null;
+	}
+	
+	public String getElement(int i, int j) {
+		if (i >= 0 && i<rows && j>=0 && j < columns) 
+			return grid[i][j];
 		
 		return null;
 	}

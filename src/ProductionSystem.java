@@ -1,3 +1,5 @@
+package src;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -34,9 +36,8 @@ public class ProductionSystem {
 		for (State state : states) {
 			Node node = new Node(state);
 			node.setParent(parentNode);
-			
-
-			node.setAction(parentNode.getAction() + " - " + state.toString());
+			//node.setAction(parentNode.getAction());
+			//node.setAction(state.toString());
 			
 			nodes.add(node);
 		}
