@@ -17,7 +17,7 @@ public class State {
 		grid = new String[rows][columns];
 		this.rows = rows;
 		this.columns = columns;
-		populateGrid(sequence);
+		populateGrid(sequence.trim());
 	}
 
 	private void populateGrid(String sequence) {
@@ -144,7 +144,7 @@ public class State {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		State state = new State("0 1 2 3 4 5 6 7 8 9", 2, 5);
+		State state = new State("1 0 4 6 2 7 5 3", 2, 4);
 		state.print();
 	}
 

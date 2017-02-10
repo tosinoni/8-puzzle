@@ -42,7 +42,7 @@ public class DepthFirstSearch implements Strategy {
 			if (!visitedStates.contains(node.getState())) {
 				visitedStates.add(node.getState());
 				
-					System.out.println(node.getState().toString() + " ----> " + visitedStates.size());
+					//System.out.println(node.getState().toString() + " ----> " + visitedStates.size());
 				//node.getState().print();
 				if (node.getState().equals(goalState))
 					return node;
