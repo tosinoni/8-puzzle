@@ -1,5 +1,9 @@
 package src;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -27,10 +31,13 @@ public class PuzzleUI {
 		}
 	}
 	
-	private static String getGoalState (int num) {
+	private static String getGoalState (String seq) {
+		String[] coordinates = seq.replaceAll("[^0-9]+", " ").split(" ");
+        List<String> goalList = Arrays.asList(coordinates);
+        Collections.sort(goalList);
 		String s = "";
-		for (int i=0; i<num; i++) {
-			s += i + " ";
+		for (String str : goalList) {
+			s += str + " ";
 		}
 		
 		return s.trim();
@@ -51,7 +58,7 @@ public class PuzzleUI {
 
 		System.out.println("Please enter the search you want to perform: ");
 
-		String finalSeq = getGoalState(row * col);
+		String finalSeq = getGoalState(sequence);
 		Node node;
 		String search = sc.nextLine();
 		if (search.equals("1")) {
@@ -78,7 +85,7 @@ public class PuzzleUI {
 		
 		System.out.println("Please enter the heuristic search you want to do: ");
 
-		String finalSeq = getGoalState(row * col);
+		String finalSeq = getGoalState(sequence);
 
 		String heuristic = sc.nextLine();
 		AstarSearch astarSearch;

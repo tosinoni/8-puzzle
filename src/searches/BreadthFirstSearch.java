@@ -1,5 +1,7 @@
 package src.searches;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -15,6 +17,7 @@ public class BreadthFirstSearch implements Strategy{
 	private ProductionSystem prodSystem;
 	private Queue<Node> nodeList = new ConcurrentLinkedQueue<>();
 	private Set<State> visitedStates = new LinkedHashSet<>();
+	private Map<String, Node> closed = new LinkedHashMap<>();
 	
 	@Override
 	public Node search(String sequence, int row, int col, String finalSequence) {
@@ -41,11 +44,13 @@ public class BreadthFirstSearch implements Strategy{
 
 			if (!visitedStates.contains(node.getState())) {
 				visitedStates.add(node.getState());
-
-				if (node.getState().equals(goalState))
+				closed.put(node.getState().toString(), node);
+				System.out.println(node.getState() + "  ======== " + visitedStates.size());
+				//node.getState().print();
+				if (node.getState().toString().equals(goalState.toString()))
 					return node;
 
-				nodeList.addAll(prodSystem.expand(node));
+				nodeList.addAll(prodSystem.expand(node, closed));
 
 			}
 
@@ -55,17 +60,17 @@ public class BreadthFirstSearch implements Strategy{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String seq = "1 0 4 6 2 7 5 3 8";
-		String finalSeq = "1 2 3 4 0 5 6 7 8";
+		String seq = "1 2 3 4 0 6 5 8 7 9";
+		String finalSeq = "1 2 3 4 5 6 7 8 9 0";
 		BreadthFirstSearch breadthFirstSearch = new BreadthFirstSearch();
-		Node node = breadthFirstSearch.search(seq, 3, 3, finalSeq);
+		Node node = breadthFirstSearch.search(seq, 2, 5, finalSeq);
 		
 		 
 		System.out.println(node.getState());
 		//System.out.println(node.getAction());
 		
 		for (String s : node.getAction()) {
-			State state = new State (s, 3, 3);
+			State state = new State (s, 2, 5);
 			 state.print();
 		}
 //		String[] parts = node.getAction().split("-");

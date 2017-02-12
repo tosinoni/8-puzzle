@@ -1,22 +1,28 @@
 package src;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class State {
 
 	private String[][] grid;
 	private int rows;
 	private int columns;
-
+	private List<String> tiles;
+    private Map<Integer, List<Integer>> emptySpaces;
 	public State (State state) {
 		this(state.toString(), state.rows, state.columns);
 		
 	}
 	public State(String sequence, int rows, int columns) {
+		tiles = new ArrayList<>();
 		grid = new String[rows][columns];
 		this.rows = rows;
 		this.columns = columns;
+		this.emptySpaces = new LinkedHashMap<>();
 		populateGrid(sequence.trim());
 	}
 
@@ -24,9 +30,16 @@ public class State {
 		String[] numbers = sequence.replaceAll("[^-?0-9]+", " ").trim().split(" ");
 
 		int index = 0;
+		int emptySpaceIndex = 0;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				grid[i][j] = numbers[index];
+				tiles.add(numbers[index]);
+				
+				if (grid[i][j].equals("0")) {
+					emptySpaces.put(emptySpaceIndex, Arrays.asList(i,j, tiles.size() - 1));
+					emptySpaceIndex++;
+				}
 				index++;
 			}
 		}
@@ -56,20 +69,33 @@ public class State {
 		this.columns = columns;
 	}
 
-	public String[][] swapElementsInGrid(int row, int col, int row1, int col1) {
-		String temp = grid[row][col];
-		grid[row][col] = grid[row1][col1];
-		grid[row1][col1] = temp;
+	public String swapElementsInGrid(int index, String elementA, int indexB, String elementB) {
+		
+		tiles.set(index, elementB);
+		tiles.set(indexB, elementA);
+		
+		String s = toString();
+		tiles.set(index, elementA);
+		tiles.set(indexB, elementB);
 
-		return grid;
+		return s;
 	}
 
+	public List<String> getTiles() {
+		return tiles;
+	}
+	public void setTiles(List<String> tiles) {
+		this.tiles = tiles;
+	}
+	
+	
+	public Map<Integer, List<Integer>> getEmptySpaces() {
+		return emptySpaces;
+	}
 	public String toString() {
 		String s = "";
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				s += grid[i][j] + " ";
-			}
+		for (String tile : tiles) {
+				s += tile + " ";
 		}
 
 		return s.trim();
@@ -105,11 +131,19 @@ public class State {
 		return null;
 	}
 	
+	public List<Integer> findNumber(int index) {
+		return emptySpaces.get(index);
+	}
+	
 	public String getElement(int i, int j) {
 		if (i >= 0 && i<rows && j>=0 && j < columns) 
 			return grid[i][j];
 		
 		return null;
+	}
+	
+	public int getIndex(String s) {
+		return tiles.indexOf(s);
 	}
 	public void print() {
 		int numLines = (columns + 1) + (columns * 2) + columns;
@@ -147,5 +181,6 @@ public class State {
 		State state = new State("1 0 4 6 2 7 5 3", 2, 4);
 		state.print();
 	}
+	
 
 }
