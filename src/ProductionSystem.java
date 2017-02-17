@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -38,22 +39,55 @@ public class ProductionSystem {
 			return null;
 
 		Set<Node> nodes = new LinkedHashSet<>();
-		List<String> list = new ArrayList<>(parentNode.getAction());
+		// List<String> list = new ArrayList<>(parentNode.getAction());
+		Node.increaseNodeCount();
+		parentNode.setIndex(Node.getNodeCount());
+		int count = 0;
 		for (String state : states) {
 			if (visited.get(state) == null) {
+				if (count == 0)
+					Node.increaseNodeCount();
 				State s = new State(state, parentNode.getState().getRows(), parentNode.getState().getColumns());
 				Node node = new Node(s);
 				node.setParent(parentNode);
-				node.setAction(list);
-				node.setAction(state);
+				node.setParentIndex(parentNode.getIndex());
+				node.setIndex(Node.getNodeCount());
+				// node.setAction(list);
+				// node.setAction(state);
 
 				nodes.add(node);
 			}
 		}
 
-		list.clear();
+		// list.clear();
 
 		return nodes;
+	}
+
+	public Node addPathToNode(Node node, Map<String, Node> visited) {
+		if (node != null) {
+			Node currentNode = node;
+			List<String> actions = new ArrayList<>();
+
+			Node parentNode = currentNode.getParent();
+            actions.add(currentNode.getState().toString());
+			while (currentNode != null) {
+				if (currentNode != null) {
+		            actions.add(currentNode.getState().toString());
+				}
+				
+				currentNode = currentNode.getParent();
+			}
+			
+			for (String s : actions)
+				System.out.println(s);
+			Collections.reverse(actions);
+			Set<String> resultSet = new LinkedHashSet<>(actions);
+			node.setAction(resultSet);
+
+		}
+		
+		return node;
 	}
 
 	public Set<Node> handleKnightNodes(Node parentNode, Map<String, Node> visited) {
@@ -83,15 +117,15 @@ public class ProductionSystem {
 
 		ProductionSystem prod = new ProductionSystem();
 
-		 Node node = new Node(state);
-		 node.getState().print();
+		Node node = new Node(state);
+		node.getState().print();
 		//
-		 Set<Node> nodes = prod.expand(node, new LinkedHashMap<>());
+		Set<Node> nodes = prod.expand(node, new LinkedHashMap<>());
 		//
-	    for (Node n : nodes) {
-		  n.getState().print();
-		// System.out.println(n.getState().toString());
-	   }
+		for (Node n : nodes) {
+			n.getState().print();
+			// System.out.println(n.getState().toString());
+		}
 	}
 
 }

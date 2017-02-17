@@ -1,8 +1,10 @@
 package src.searches;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -45,12 +47,13 @@ public class DepthFirstSearch implements Strategy {
 
 			if (!visitedStates.contains(node.getState())) {
 				visitedStates.add(node.getState());
+								
 				closed.put(node.getState().toString(), node);
 
-					System.out.println(node.getState().toString() + " ----> " + visitedStates.size());
+					//System.out.println(node.getState().toString() + " ----> " + visitedStates.size());
 				//node.getState().print();
-				if (node.getState().equals(goalState))
-					return node;
+				if (node.getState().equals(goalState) || visitedStates.size() == 500000)
+					return prodSystem.addPathToNode(node, closed);
 				
 				for (Node n : prodSystem.expand(node, closed)){
 						nodeList.push(n);

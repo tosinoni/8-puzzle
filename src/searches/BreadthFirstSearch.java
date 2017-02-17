@@ -27,7 +27,9 @@ public class BreadthFirstSearch implements Strategy{
 			prodSystem = new ProductionSystem();
 			State state = new State(sequence, row, col);
 			Node node = new Node(state);
-			node.setAction(state.toString());
+			
+			node.setParent(null);
+
 			nodeList.add(node);
 			
 			State goalState = new State(finalSequence, row, col);
@@ -45,10 +47,10 @@ public class BreadthFirstSearch implements Strategy{
 			if (!visitedStates.contains(node.getState())) {
 				visitedStates.add(node.getState());
 				closed.put(node.getState().toString(), node);
-				System.out.println(node.getState() + "  ======== " + visitedStates.size());
+//				System.out.println(node.getState() + "  ======== " + visitedStates.size());
 				//node.getState().print();
-				if (node.getState().toString().equals(goalState.toString()))
-					return node;
+				if (node.getState().equals(goalState) || visitedStates.size() == 500000)
+					return prodSystem.addPathToNode(node, closed);
 
 				nodeList.addAll(prodSystem.expand(node, closed));
 

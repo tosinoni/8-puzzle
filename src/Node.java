@@ -1,21 +1,26 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 
 public class Node {
 
+	public static int nodeCount = 0;
 	private State state;
 	private Node parent;
-	private List<String> action;
+	private Set<String> action;
 	private int exactCost;
 	private int estimateCost;
+	private int index;
+	private int parentIndex;
 
 	public Node(State state) {
 		this.state = state;
-		this.action = new ArrayList<>();
+		this.action = new LinkedHashSet<>();
 	}
 
 	public State getState() {
@@ -34,12 +39,20 @@ public class Node {
 		this.parent = parentNode;
 	}
 
-	public List<String> getAction() {
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public Set<String> getAction() {
 		return action;
 	}
 
-	public void setAction(List<String> actions) {
-		action = new ArrayList<>(actions);
+	public void setAction(Set<String> actions) {
+		this.action = actions;
 	}
 	
 	public void setAction(String s) {
@@ -55,7 +68,7 @@ public class Node {
 
 		Node node = (Node) obj;
 
-		return (this.state.equals(node.state)) && (this.action.equals(node.action)) && (this.parent.equals(node.parent))
+		return (this.state.equals(node.state)) && (this.action.equals(node.action)) && (this.parent == node.parent)
 				&& (this.exactCost == node.exactCost) && (this.estimateCost == node.estimateCost);
 	}
 
@@ -82,6 +95,24 @@ public class Node {
 	public void clearActions () {
 		action.clear();
 	}
+	
+	public static void increaseNodeCount() {
+		nodeCount++;
+	}
+	
+	
+	public int getParentIndex() {
+		return parentIndex;
+	}
+
+	public void setParentIndex(int parentIndex) {
+		this.parentIndex = parentIndex;
+	}
+
+	public static int getNodeCount() {
+		return nodeCount;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
