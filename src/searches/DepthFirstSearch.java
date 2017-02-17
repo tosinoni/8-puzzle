@@ -52,8 +52,10 @@ public class DepthFirstSearch implements Strategy {
 
 					//System.out.println(node.getState().toString() + " ----> " + visitedStates.size());
 				//node.getState().print();
-				if (node.getState().equals(goalState) || visitedStates.size() == 500000)
+				if (node.getState().equals(goalState))
 					return prodSystem.addPathToNode(node, closed);
+				else if (visitedStates.size() == 220000)
+					return null;
 				
 				for (Node n : prodSystem.expand(node, closed)){
 						nodeList.push(n);

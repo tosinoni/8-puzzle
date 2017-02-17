@@ -30,16 +30,16 @@ public class PuzzleUI {
 			return false;
 		}
 	}
-	
-	private static String getGoalState (String seq) {
+
+	private static String getGoalState(String seq) {
 		String[] coordinates = seq.replaceAll("[^0-9]+", " ").split(" ");
-        List<String> goalList = Arrays.asList(coordinates);
-        Collections.sort(goalList);
+		List<String> goalList = Arrays.asList(coordinates);
+		Collections.sort(goalList);
 		String s = "";
 		for (String str : goalList) {
 			s += str + " ";
 		}
-		
+
 		return s.trim();
 	}
 
@@ -71,9 +71,11 @@ public class PuzzleUI {
 			node = printHeuristicSearchOptions(sc, sequence, row, col);
 		}
 
-		for (String s : node.getAction()) {
-			State state = new State(s, row, col);
-			state.print();
+		if (node != null) {
+			for (String s : node.getAction()) {
+				State state = new State(s, row, col);
+				state.print();
+			}
 		}
 	}
 
@@ -81,8 +83,7 @@ public class PuzzleUI {
 		System.out.println("1. Heuristic By Counting Tiles");
 		System.out.println("2. Heuristic By Distance");
 		System.out.println("3. Heuristic By Average");
-		
-		
+
 		System.out.println("Please enter the heuristic search you want to do: ");
 
 		String finalSeq = getGoalState(sequence);
@@ -145,7 +146,7 @@ public class PuzzleUI {
 				System.out.println("1. Yes");
 				System.out.println("2. No");
 				System.out.println("Do you want to Exit? : ");
-				if (input.equals("1")){
+				if (input.equals("1")) {
 					sc.close();
 					repeat = false;
 				}

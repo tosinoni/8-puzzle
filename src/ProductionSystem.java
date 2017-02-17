@@ -78,9 +78,7 @@ public class ProductionSystem {
 				
 				currentNode = currentNode.getParent();
 			}
-			
-			for (String s : actions)
-				System.out.println(s);
+
 			Collections.reverse(actions);
 			Set<String> resultSet = new LinkedHashSet<>(actions);
 			node.setAction(resultSet);

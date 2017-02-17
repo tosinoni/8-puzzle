@@ -49,7 +49,7 @@ public class BreadthFirstSearch implements Strategy{
 				closed.put(node.getState().toString(), node);
 //				System.out.println(node.getState() + "  ======== " + visitedStates.size());
 				//node.getState().print();
-				if (node.getState().equals(goalState) || visitedStates.size() == 500000)
+				if (node.getState().equals(goalState) || visitedStates.size() == 300000)
 					return prodSystem.addPathToNode(node, closed);
 
 				nodeList.addAll(prodSystem.expand(node, closed));
