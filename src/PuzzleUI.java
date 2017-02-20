@@ -34,11 +34,16 @@ public class PuzzleUI {
 	private static String getGoalState(String seq) {
 		String[] coordinates = seq.replaceAll("[^0-9]+", " ").split(" ");
 		List<String> goalList = Arrays.asList(coordinates);
-		Collections.sort(goalList);
+		
+		List<Integer> intList = new ArrayList<>();
+		for(String s : goalList) intList.add(Integer.valueOf(s));
+
+		Collections.sort(intList);
 		String s = "";
-		for (String str : goalList) {
-			s += str + " ";
+		for (int num : intList) {
+			s += num + " ";
 		}
+		
 
 		return s.trim();
 	}
@@ -76,6 +81,8 @@ public class PuzzleUI {
 				State state = new State(s, row, col);
 				state.print();
 			}
+			
+			System.out.println("total number of moves is " + node.getAction().size());
 		}
 	}
 

@@ -50,7 +50,7 @@ public class DepthFirstSearch implements Strategy {
 								
 				closed.put(node.getState().toString(), node);
 
-					//System.out.println(node.getState().toString() + " ----> " + visitedStates.size());
+				//System.out.println(node.getState().toString() + " ----> " + visitedStates.size());
 				//node.getState().print();
 				if (node.getState().equals(goalState))
 					return prodSystem.addPathToNode(node, closed);
@@ -72,14 +72,14 @@ public class DepthFirstSearch implements Strategy {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String seq = "1 2 3 4 0 6 7 5 8";
-		String finalSeq = "1 2 3 4 5 6 7 8 0";
+		String seq = "0 0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14";
+		String finalSeq = "1 4 5 6 3 2 8 7 9 0 11 12 13 14 0 0";
 		DepthFirstSearch depthFirstSearch = new DepthFirstSearch();
-		Node node = depthFirstSearch.search(seq, 3, 3, finalSeq);
+		Node node = depthFirstSearch.search(seq, 4, 4, finalSeq);
 		
 		System.out.println(node.getAction().size());
 		for (String s : node.getAction()) {
-			State state = new State (s, 3, 3);
+			State state = new State (s, 2, 5);
 			 state.print();
 		}		
 //		String[] parts = node.getAction().split("-");
